@@ -1,0 +1,11 @@
+name: astrbot_plugin_vocechat
+desc: VoceChat 平台适配器，将 VoceChat 接入 AstrBot 作为消息平台。支持多个机器人实例，通过 Webhook 接收消息、Bot API 发送回复。
+version: 1.0.0
+author: astrbot-plugin-contrib
+repo: https://github.com/icenfn/astrbot-plugin-vocechat
+logo: ""
+display_name: VoceChat 适配器
+short_desc: VoceChat 平台适配器，在消息平台配置中添加 VoceChat 连接。
+support_platforms:
+  - vocechat
+astrbot_version: ">=4.16,<5"
