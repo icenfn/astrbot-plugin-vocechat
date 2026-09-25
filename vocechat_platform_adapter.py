@@ -68,8 +68,8 @@ CONFIG_METADATA = {
     "VoceChat",
     logo_path="logo.png",
     default_config_tmpl={
-        "server_url": "https://chat.example.com",
-        "api_key": "your_bot_api_key",
+        "server_url": "http://0.0.0.0:3000",
+        "api_key": "api_key",
         "webhook_host": "0.0.0.0",
         "webhook_port": 9300,
         "webhook_path": "/vocechat/webhook",
