@@ -66,7 +66,7 @@ CONFIG_METADATA = {
 @register_platform_adapter(
     "vocechat",
     "VoceChat",
-    logo_path=str(PLUGIN_ROOT / "logo.png"),
+    logo_path="logo.png",
     default_config_tmpl={
         "server_url": "https://chat.example.com",
         "api_key": "your_bot_api_key",
@@ -85,7 +85,7 @@ class VoceChatPlatformAdapter(Platform):
         platform_settings: dict,
         event_queue: asyncio.Queue,
     ) -> None:
-        super().__init__(event_queue)
+        super().__init__(platform_config, event_queue)
         self.config = platform_config
         self.settings = platform_settings
 
@@ -107,13 +107,17 @@ class VoceChatPlatformAdapter(Platform):
     # ------------------------------------------------------------------ #
 
     def meta(self) -> PlatformMetadata:
-        return PlatformMetadata("vocechat", "VoceChat")
+        return PlatformMetadata(
+            name="vocechat",
+            description="VoceChat",
+            id=str(self.config.get("id", "vocechat")),
+        )
 
     async def run(self):
         """启动 Webhook HTTP 服务器（阻塞运行）。"""
         if not self.server_url or not self.api_key:
-            logger.error(
-                "[VoceChat] 未配置 server_url 或 api_key，适配器无法启动。"
+            self.record_error(
+                "未配置 server_url 或 api_key，适配器无法启动。"
             )
             return
 
@@ -210,8 +214,9 @@ class VoceChatPlatformAdapter(Platform):
         detail = data.get("detail", {})
         msg_type = detail.get("type", "normal")
 
-        # reaction 类型是编辑/删除等消息响应，忽略
-        if msg_type == "reaction":
+        # 只处理普通消息；reaction（编辑/删除）、newuser（新用户注册）等事件忽略
+        if msg_type != "normal":
+            logger.debug(f"[VoceChat] 忽略非普通消息事件，类型: {msg_type}")
             return None
 
         content = str(detail.get("content", ""))
@@ -223,7 +228,7 @@ class VoceChatPlatformAdapter(Platform):
 
         abm = AstrBotMessage()
         abm.message_id = mid
-        abm.self_id = "vocechat_bot"
+        abm.self_id = str(self.config.get("id", "vocechat_bot"))
         abm.raw_message = data
 
         # 判断私聊还是频道

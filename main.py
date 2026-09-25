@@ -20,7 +20,7 @@ from astrbot.api.star import Context, Star, register
     "astrbot_plugin_vocechat",
     "astrbot-plugin-contrib",
     "VoceChat 平台适配器：将 VoceChat 接入 AstrBot 作为消息平台",
-    "1.0.1",
+    "1.0.2",
     "https://github.com/icenfn/astrbot-plugin-vocechat",
 )
 class VoceChatPlugin(Star):
