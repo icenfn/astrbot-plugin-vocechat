@@ -5,7 +5,7 @@ author: icenfn
 repo: https://github.com/icenfn/astrbot-plugin-vocechat
 logo: ""
 display_name: VoceChat 适配器
-short_desc: VoceChat 平台适配器，在消息平台配置中添加 VoceChat 连接。
+short_desc: 更好用 VoceChat 平台适配器
 support_platforms:
   - vocechat
 astrbot_version: ">=4.16,<5"
